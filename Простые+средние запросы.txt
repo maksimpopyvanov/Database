@@ -1,0 +1,72 @@
+Запрос 1
+Выбрать имя, фамилию и количество побед на ОИ пловца определенного пола, у которого их больше всего 
+Допустимые параметры [_SEX_]:
+('male')
+('female')
+
+SELECT s.name, s.second_name, s.olympic_champion
+FROM swimmer as s
+WHERE s.sex=_SEX_
+ORDER BY s.olympic_champion DESC NULLS LAST
+LIMIT 1;
+
+Запрос 2
+Выбрать города, исключая повторов, в которых проводились соревнования в  указанный год. Отсортировать по названию
+Допустимые параметры [_YEAR_]:
+(1999)
+(2012)
+(2016)
+
+SELECT DISTINCT с.city
+FROM championships as c
+WHERE c.year=_YEAR_
+ORDER BY c.city;
+
+Запрос 3
+Выбрать имя, фамилию, количество побед на чм и количество установленных рекордов мира пловцов, которые ни разу не становились
+олимпийскими чемпионами, но хотя бы раз становились чемпионами мира, или обладателями мирового рекорда. Отсортировать по фамилии, имени,
+количеству побед на ЧМ, количеству мировых рекордов.
+
+SELECT s.name, s.second_name, s.world_champion, s.world_records
+FROM swimmer as s
+WHERE s.olympic_champion=0 AND s.world_champion>0 AND s.world_records>0
+ORDER BY s.second_name, s.name, s.world_champion, s.world_records;
+
+Запрос 4
+Выбрать фамилию, имя, рост 3-х самых низких пловцов определенного пола
+Допустимые параметры [_SEX_]:
+('male')
+('female')
+
+SELECT s.name, s.second_name, s.growth
+FROM swimmer as s
+WHERE s.sex=_SEX_
+ORDER BY s.growth ASC
+LIMIT 3;
+
+Средние запросы
+
+Запрос 1
+Отображает имя и фамилию олимпийских чемпионов вместе с их страной
+
+SELECT swimmer.name, swimmer.second_name, countries.name as name_country
+FROM swimmer
+INNER JOIN countries ON swimmer.id_country=countries.id AND swimmer.olympic_champion>0
+ORDER BY swimmer.second_name, swimmer.name;
+
+Запрос 2
+Делает отметку, что в данном городе проводились олимпийские игры
+
+SELECT championships.city, type_of_championship.name
+FROM championships
+LEFT OUTER JOIN type_of_championship ON championships.id_type=type_of_championship.id AND type_of_championship.name='olympic_games'
+ORDER BY championships.city;
+
+Запрос 3
+отображает основной стиль каждого пловца.Сортировка по фамилии
+
+SELECT swimmer.name, swimmer.second_name, styles.name as style
+FROM swimmer
+INNER JOIN styles ON swimmer.main_style_id=styles.id
+ORDER BY swimmer.second_name, swimmer.name;
+
