@@ -1,0 +1,20 @@
+Сложные запросы
+
+1. Выводит фамилию пловца и ко-во чемпионатов, в которых он принял участие. Сортировка по убыванию
+
+
+select DISTINCT s.second_name AS swimmer,
+count_of_championships
+FROM
+(SELECT s.id, s.second_name, COUNT(s.id) AS count_of_championships FROM swimmer s
+JOIN swimmer_championships_relations sc
+ON s.id=sc.id_swimmer
+JOIN championships c
+ON sc.id_championship=c.id
+GROUP BY s.id) AS s
+JOIN swimmer_championships_relations sc
+ON s.id=sc.id_swimmer
+JOIN championships c
+ON sc.id_championship=c.id
+ORDER BY count_of_championships DESC;
+
