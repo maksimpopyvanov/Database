@@ -4,9 +4,9 @@
 1. Выбирает стиль плавания, который является основным у наибольшего числа пловцов.
 Если таких стилей несколько, выводит все.
 
-SELECT s.second_name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)
+SELECT s.name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)
 HAVING count(s.id) = (SELECT max(number_of) FROM 
-(SELECT s.second_name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)) AS foo);
+(SELECT s.name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)) AS foo);
 
 2. Выводит список пловцов. И показывает, сколько раз каждый пловец принял участие на домашних чемпионатах
 
