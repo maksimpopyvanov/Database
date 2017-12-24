@@ -1,0 +1,13 @@
+ƒополнительные запросы:
+
+
+1. ¬ыбираем стиль плавани€, который больше всего используетс€, как основной, и показывает количество пловцов, у которых он основной.
+≈сли таких стилей несколько, выводит все.
+
+SELECT s.name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)
+HAVING count(s.id) = (SELECT max(number_of) FROM 
+(SELECT s.name, count(s.id) AS number_of FROM styles s JOIN swimmer sw ON s.id = sw.main_style_id GROUP BY (s.id)) AS foo);
+
+2. ¬ыводит список пловцов. » показывает, сколько раз каждый пловец прин€л участие на домашних чемпионатах
+
+SELECT sw.name, count(sw.id_country) FROM swimmer sw JOIN countries c ON sw.id_country=c.id JOIN championships ch ON ch.id_country = c.id JOIN swimmer_championships_relations sc ON sw.id = sc.id_swimmer where sc.id_championship = ch.id AND  sw.id_country = ch.id_country GROUP BY (sw.id);

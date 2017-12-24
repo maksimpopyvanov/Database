@@ -18,3 +18,15 @@ JOIN championships c
 ON sc.id_championship=c.id
 ORDER BY count_of_championships DESC;
 
+2. Выводит фамилию пловца и ко-во стилей плавания, которыми он выступал на чемпионатах
+
+SELECT DISTINCT s.second_name AS swimmer,
+count_of_styles
+FROM
+(SELECT s.id, s.second_name, COUNT(s.id) AS count_of_styles FROM swimmer  s
+JOIN Styles_swimmer_relations ss
+ON s.id=ss.id_swimmer
+JOIN Styles st
+ON ss.id_styles=st.id
+GROUP BY s.id) AS s;
+
