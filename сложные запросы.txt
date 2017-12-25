@@ -30,3 +30,13 @@ JOIN Styles st
 ON ss.id_styles=st.id
 GROUP BY s.id) AS s;
 
+3. Показывает, сколько раз каждый пловец принял участие в олимпийских играх
+
+SELECT s.second_name, count(s.id) FROM swimmer s
+JOIN swimmer_championships_relations sc
+ON s.id=sc.id_swimmer
+JOIN Championships ch
+ON ch.id=sc.id_championship
+JOIN type_of_championship t
+ON t.id=ch.id_type where t.name='olympic_games'
+GROUP BY (s.id);
