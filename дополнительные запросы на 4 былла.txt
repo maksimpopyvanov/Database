@@ -10,4 +10,13 @@ HAVING count(s.id) = (SELECT max(number_of) FROM
 
 2. Выводит список пловцов. И показывает, сколько раз каждый пловец принял участие на домашних чемпионатах
 
-SELECT sw.second_name, count(sw.id_country) FROM swimmer sw JOIN countries c ON sw.id_country=c.id JOIN championships ch ON ch.id_country = c.id JOIN swimmer_championships_relations sc ON sw.id = sc.id_swimmer where sc.id_championship = ch.id AND  sw.id_country = ch.id_country GROUP BY (sw.id);
+SELECT sw.second_name, count(sw.id_country) FROM swimmer sw
+JOIN countries c
+ON sw.id_country=c.id
+JOIN championships ch
+ON ch.id_country = c.id
+JOIN swimmer_championships_relations sc
+ON sw.id = sc.id_swimmer
+where sc.id_championship = ch.id
+AND  sw.id_country = ch.id_country
+GROUP BY (sw.id);
